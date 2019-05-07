@@ -24,7 +24,7 @@ Esta apostila está estruturada considerando três etapas: a apresentação do a
 <!--------------------------------------------------> ____
 # O Ambiente R 
 ## O que é e por que usar? 
-O R é uma linguagem de programação interpretada, além de um ambiente de software gratuito. Criado em 1995, no departamento de Estatística da Universidade de Auckland - Nova Zelândia, por Ross Ihaka e Robert Gentleman. Foi batizado como “R”, tanto pelo nome de seus criadores, quanto para fazer uma provocação à linguagem S, visto se tratar de uma implementação desta. 
+O R é uma linguagem de programação interpretada, além de um ambiente de software gratuito. Criado em 1995, no departamento de Estatística da Universidade de Auckland - Nova Zelândia, por Ross Ihaka e Robert Gentleman. Foi batizado como “R”, tanto pelo nome de seus criadores, quanto para fazer uma provocação à linguagem S, visto ser uma implementação desta. 
 
 O ambiente R é disponibilizado em diferentes tipos de plataformas, oferecendo um vasto leque de funcionalidades, bases de dados, e integrações com outras linguagens de programação, tudo acessível via bibliotecas. Tais bibliotecas podem ser instaladas ou desenvolvidas pelo próprio usuário, neste último caso permitindo a disponibilização em repositórios públicos para o acesso dos demais usuários. Em termos de suporte, o R possui uma comunidade extremamente ativa, engajada no aprimoramento direto da ferramenta, desenvolvimento de novas bibliotecas, e suporte gratuito dos usuários, por meio de fóruns online, encontros presenciais e materiais dos mais diferentes tipos. 
 
@@ -809,7 +809,7 @@ Ou entender a relação entre os dados, considerando, por exemplo a matriz de co
 
 Similarmente, podemos aplicar testes estatísticos (e.g. `t.test()`), modelos de regressão/supervised models (`lm()`), análises de cluster/unsupervised (`kmeans()`) entre outras. Contudo, tendo sempre em mente que tais técnicas possuem diferentes opções de parâmetros, além de premissas metodologicas que, caso não respeitadas, podem nos levar a conclusões equivocadas.
 
-Outro aspecto importante de uma análise diz respeito a transformações que podemos ter o interesse em fazer, como reordenar uma coluna, ou substituir algum elemento. No caso das bases *built-in* não temos o poder de fazer tais alterações, sendo assim podemos salvar uma base paralela para tais alterações - a prática de não alterar os dados originais trata-se de uma das boas práticas na análise de dados:
+Outro aspecto importante de uma análise diz respeito a transformações que podemos ter o interesse em fazer, como reordenar uma coluna, ou substituir algum elemento. No caso das bases *built-in* não temos o poder de fazer tais alterações, sendo assim podemos salvar uma base paralela para tais alterações - não alterar os dados originais é uma prática recomendada na análise de dados:
 
 ```{r}
 dados_mtcars <- mtcars
@@ -833,9 +833,9 @@ Visando facilitar a dinâmica, vamos primeiro exportar a base de dados criada no
 write.table(dados_mtcars, file = "dados_mtcars.txt")
 ```
 
-Uma pergunta natural seria: onde o arquivo foi salvo? É a resposta é: no diretório de trabalho. Para saber qual o diretório de trabalho atual, utilizamos o comando `getwd()` (*get working directory*), o que nos retornará algo como `"C:/Users/Documents"`. Enquanto que para alterar o diretório de trabalho temos a função `setwd()` (*set working directory*), por meio de comandos como `setwd("C:/Users/Desktop")`. 
+Uma pergunta natural seria: onde o arquivo foi salvo? É a resposta é: no diretório de trabalho. Para saber qual o diretório de trabalho corrente, utilizamos o comando `getwd()` (*get working directory*), o que retornará algo como `"C:/Users/Documents"`. Enquanto que para alterar o diretório de trabalho temos a função `setwd()` (*set working directory*), por meio de comandos como `setwd("C:/Users/Desktop")`. 
 
-Alternativamente podemos especificar o destino do arquivo de interesse, de modo independente do diretório de trabalho, precedendo o nome do arquivo com o diretório desejado, considerando o caso assim p.e.: `write.table(dados_mtcars, file = "C:/Users/dados_mtcars.txt")` - note que trabalhamos com barras simples (`/`) para especificação de diretórios. 
+Alternativamente podemos especificar o destino do arquivo de interesse, de modo independente do diretório de trabalho, precedendo o nome do arquivo com o diretório desejado, considerando o caso assim p.e.: `write.table(dados_mtcars, file = "C:/Users/dados_mtcars.txt")` - note que trabalhamos com barras simples (`/` ou `\\`) para especificação de diretórios. 
 
 Para a leitura de dados seguimos o mesmo padrão, assim:
 
@@ -1020,7 +1020,7 @@ Bibliotecas tratam-se de uma coleção de funções, dados e códigos compilados
 
 ```
 
-Tais bibliotecas se encontram disponíveis pela rede de distribuição oficial do R, o CRAN (do inglês *Comprehensive R Archive Network*). Mas existem também bibliotecas disponibilizadas via repositórios abertos, como o GitHub, ou disponíveis para download, em ambos os casos sem necessariamente constarem no CRAN. Nestes casos é necessário fazer a instalação com `devtools::install_github("nome-do-repo/nome-do-pacote")`, após a instalação do pacote `devtools`, ou, no caso de um arquivo zipado, adicionando o parâmetro `repos = NULL`, na função `install.packages()`.
+Tais bibliotecas se encontram disponíveis pela rede de distribuição oficial do R, o CRAN (do inglês *Comprehensive R Archive Network*). Mas existem também bibliotecas disponibilizadas via outros repositórios como o Bioconductor e o GitHub, ou ainda disponíveis para download. Nestes casos é necessário fazer a instalação com `devtools::install_github("nome-do-repo/nome-do-pacote")`, após a instalação do pacote `devtools`, ou, no caso de um arquivo zipado, adicionando o parâmetro `repos = NULL`, na função `install.packages()`.
 
 ```{r, eval=FALSE}
 #instalação do pacote a partir do CRAN
@@ -1034,33 +1034,27 @@ Tais bibliotecas se encontram disponíveis pela rede de distribuição oficial d
 
 Um ponto importante é que uma vez que a biblioteca esteja instalada, não é necessário carregar toda a biblioteca para utilizar uma função especificamente, sendo suficiente utilizar o nome da biblioteca, seguido por `::` e o nome da função desejada, ou seja:  `nome_da_biblioteta::função_de_interesse()`. Tal recurso é interessante visto que ao fazer o load de uma biblioteca, todas as funções desta se sobrepõem as que já estão carregadas. E como é comum que pacotes diferentes compartilhem funções com o mesmo nome, está torna-se uma forma de evitar tal problema - note que este recurso foi utilizado no caso do `devtools::install_github()` do exemplo acima.
 
-Para checar quais bibliotecas estão instaladas podemos checar a aba `Packages` do RStudio, ou por meio do comando `installed.packages()`. Outro ponto importante são as atualizações das bibliotecas, que pode ser feita para todas as blibotecas por meio do comando `update.packages()`, ou reinstalando o pacote de interesse - para consultar quais estão desatualizadas temos `old.packages()`. 
+Para checar quais bibliotecas estão instaladas podemos checar a aba `Packages` do RStudio, ou por meio do comando `installed.packages()`. Outro ponto importante são as atualizações das bibliotecas, que pode ser feita para todas as blibotecas por meio do comando `update.packages()`, ou reinstalando o pacote de interesse - para consultar quais estão desatualizadas temos `old.packages()`. Por fim, para diferenciarmos as funções *built-in* daquelas carregadas via bibliotecas, vamos chamar as primeiras de funções do `R base`.  
 
 
 <!--------------------------------------------------> ____
 # R para Ciência de Dados 
-Vamos agora explorar o R do ponto de vista da Ciência de Dados, considerando um ciclo usual de análise da ciência de Dados, considerando: leitura, organização, transformações, visualizações, modelagens e comunicação, e as possíveis repetições cabíveis:
+Vamos agora explorar o R do ponto de vista da Ciência de Dados, considerando um ciclo usual de *análise*, contemplando: leitura, tidy (organização), transformações, visualizações, modelagens e comunicação, e as possíveis repetições cabíveis.
 
-```{r , echo=FALSE, out.width = '70%', fig.align = "center", fig.cap="Workflow de Análise da Ciência de Dados"}
+```{r , echo=FALSE, out.width = '70%', fig.align = "center", fig.cap="Ciclo de Análise da Ciência de Dados"}
  knitr::include_graphics("Figs/Fig_2_workflow_DataScience.png")
 ```
 
-Note que aspectos como o deploy e a manutenção de modelo não estão sendo considerados neste flow. Isto porque, apesar da incontextável importância, tais fases tendem a priorizar outros aspectos, como integrações com sistemas, performance, e questões relacionadas, enquanto que para o ciclo pontuado acima, temos o entendimento e modelagem do problema como maior propósito. 
+Note que aspectos como deploy e manutenção de modelos não estão sendo considerados neste flow. Isto porque, apesar da incontextável importância, tais fases tendem a priorizar aspectos como integrações com sistemas, performance, e questões relacionadas, enquanto que para o ciclo pontuado acima, temos o entendimento e a modelagem do problema como meta principal. 
 
-Visando descomplicar tais ciclos no contexto da programação R iremos trabalhar com a coleção de pacotes do `tidyverse`:
+Visando a implementação de tal ciclo no contexto da programação R iremos trabalhar com a coleção de pacotes do `tidyverse`.
 
 
 <!-- Para a apresentaçao das etapas do workflow da Ciência de Dados, vamos dar foco nas soluções do tidyverse, porém sempre comentando as soluções tradicionais via RBase - lembrando que existem dezenas de outras alternativas disponíveis, inclusive a possibilidade de desenvolvimento. -->
 
 
 ## O universo tidyverse 
-O `tidyverse` é um conjunto de bibliotecas que compartilham a mesma gramática, contemplando todo o ciclo de análise da ciência de dados, tendo como base dados *tidy*, uma forma padronizada de vincular a estrutura de um conjunto de dados (seu layout físico) com sua semântica (seu significado). Para tal temos que, independente da origem, características, problemas e layout dos dados, estes precisam ser organizados de modo que:
-
-- cada variável tenha a sua própria coluna;
-- cada observação tenha a sua própria linha; e
-- cada valor tenha a sua própria célula.
-
-Apesar da simplicidade das premissas, o fato do pre-requisito existir e ser previsto no flow, garante recursos para o ajustes necessários, e coerência para todo o ecossistema. Assim, para entendermos melhor as características de dados, gramática e aspectos abordados, vamos instalar o `tidyverse` e discutir cada um destes pontos:
+O `tidyverse` é um conjunto de bibliotecas que compartilham a mesma gramática, contemplando todo o ciclo de análise da ciência de dados, e tendo como base dados *tidy* - uma forma padronizada de vincular a estrutura de um conjunto de dados (seu layout físico) com sua semântica (seu significado). Para entendermos melhor tais características, vamos instalar o pacote `tidyverse` e discutir a estrutura de dados, gramática e aspectos abordados por este.
 
 ```{r, eval=F}
 install.packages("tidyverse")
@@ -1068,10 +1062,18 @@ install.packages("tidyverse")
 
 
 ### Dados: Tidy
-Conforme comentado, dados *tidy* possuem uma estrutura tal que: cada variável é representada por uma coluna, cada observação por uma linha, e cada valor possui sua própria célula. No R tal estrutura pode ser alcançada por meio dos `data.frames`, porém as bibliotecas `tidyverse` trabalham com uma estrutura mais moderna, chamada `tbl_df` ou `tibble`. A estrutura `tibble` é proveniente da biblioteca com o mesmo nome, um dos pacotes instalados pelo `tidyverse`, assim podemos carregar esta estrutura tanto com `library(tibble)` quanto com  `library(tibble)`. Como exemplo veremos como se comporta a base `mtcars` quando transformada para a estrutura `tibble`:
+Conforme comentado, dados *tidy* possuem uma estrutura padronizada visando relacionar o layout dos dados com seu significado. Para tal temos que, independente da origem, características, problemas e layout dos dados, estes precisam ser organizados garantindo que:
+
+- cada variável tenha a sua própria coluna;
+- cada observação tenha a sua própria linha; e
+- cada valor tenha a sua própria célula.
+
+Apesar da simplicidade das premissas, o fato do pre-requisito existir e ser previsto no flow, garante recursos para os ajustes necessários, e coerência para todo o ecossistema de análise.
+
+No R tal estrutura pode ser alcançada por meio dos `data.frames`, porém as bibliotecas do `tidyverse` trabalham com uma estrutura mais moderna, chamada `tbl_df` ou `tibble`. Tal estrutura é proveniente da biblioteca com o mesmo nome, porém, por ser um dos pacotes base do `tidyverse` podemos carrega-lo utilizando qualquer uma destas bibliotecas. Visando ilustrar esta nova estrutura, segue a reestruturação da base `mtcars`:
 
 ```{r}
-#carregando a biblioteca para o uso de dados tidy
+#carregando a biblioteca `tibble`
   library(tibble)
   
   #como data.frame (estrutura original)
@@ -1083,46 +1085,65 @@ Conforme comentado, dados *tidy* possuem uma estrutura tal que: cada variável �
     mtcars_2 
 ```
 
-Note que a visualização que temos ao chamar os dados no formato tibble é muito mais simples e descritivo que a visualização original (que pode ser consultada na seção Análises Descritivas. Adicionalmente questões como performance e consistência também foram melhorados em relação aos data.frames.
+Note que a visualização que temos ao chamar os dados no formato `tibble` é muito mais simples e descritiva que a visualização original (que pode ser consultada na seção Análises Descritivas). Adicionalmente questões como performance e consistência também apresentam melhorias frente aos `data.frames`. Para criar tais estruturas podemos:
 
+```{r}
+#função tibble: construir a partir de colunas
+  tibble(x = 1:3, y = c("a", "b", "c"))
 
-
-
-Nesta temos uma coleção de bibliotecas projetadas para trabalhar: o conceito de dados *tidy* (via `tibble`), a gramática do operador pipe (`%>%`), e os pilares básicos de um workflow de ciência de dados. 
+#função tribble: ou a partir de linhas 
+  tribble(~ x, ~ y,
+           1, "a",
+           2, "b",
+           3, "c")
+```
 
 
 ### Gramática: Pipe 
-O Pipe é um operador, representado por `%>%`, que possibilita aplicar comandos em camadas, uma sequência de etapas aplicadas a um objeto principal. Assim ao invés de ler uma sequência de aplicações de dentro para fora, teriamos a leitura da esquerda para a direita:
+Em relação a gramática o `tidyverse` permite que trabalhemos com a sintaxe utilizada até então, em que a leitura de uma sequência de operações aplicadas a um objeto é feita de dentro para fora, isto é:
 
 ```{r, eval=F}
 #leitura de dentro para fora
   funçãoN(...(função2(função1(dados))))
+```
 
-#leitura da esquerda para a direita
-  dados %>% função1() %>% função2() %>% ... %>% funçãoN()
+Contudo os pacotes do `tidyverse` oferecem recursos que são melhor aproveitados quando aplicamos operações em sequência, por meio do operador pipe `%>%`:
+
+```{r, eval=F}
+#leitura em sequência
+  dados %>% 
+    função1() %>% 
+    função2() %>% 
+    ...
+    funçãoN()
   
 ```
 
-Este operador não faz parte dos comandos básicos do R e, portanto, é necessário instalar alguma bliblioteca que o contemple. Originalmente o operador `%>%` faz parte da biblioteca `magrittr` (`install.packages("magrittr")`), podendo ser também utilizado por meio da biblioteca `dplyr`, um dos pacotes contidos no `tidyverse` - que discutiremos na sequência. 
+Assim, além do claro ganho em termos de leitura, passamos a ter uma análise modular, de modo que podemos alterar, remover ou inserir tais módulos de forma simples, sem comprometer o todo. 
+
+O operador `%>%` foi originalmente introduzido no R por meio da biblioteca `magrittr`, porém ganhou tamanha importância que passou a ser contemplado por diversos pacotes, inclusive, claro, o `tidyverse`. A título de comparação, segue um exemplo contemplando os dois paradigmas descritos, em qual deles seria mais simples retirar o log? 
 
 ```{r}
-#carregando a biblioteca para uso do operador %>%
-  library(magrittr)
+library(tidyverse)
+```
 
+```{r, message = F}
 #assim, aplicar o modulo, o log e arredondar para 2 casas decimais:
-  round(log(abs(-3:3)),2)
+  floor(log(abs(-3:3)))
+
 #pode ser reescrito como:
-  -3:3 %>% abs %>% log() %>% round(2)
+  -3:3 %>% 
+    abs() %>% 
+    log() %>% 
+    floor()
 
 ```
 
-> O operador `%>%`  pode ser chamado por meio do atalho `'ctrl + shift + M'` 
+> O operador `%>%`  pode ser chamado por meio do atalho `'ctrl + shift + M'` no RStudio.
 
 
-
-
-### Pilares: bibliotecas tidyverse
-Assim, com o comando `library(tidyverse)` passamos a ter as seguintes bibliotecas instaladas e carregadas:
+### O Workflow de análise
+Por fim temos a questão dos pilares do workflow de análise, apresentado no início deste capítulo, e para exemplificar como o tidyverse conversa com este flow, segue a descrição das bibliotecas que são instaladas e carregadas ao instalarmos e carregarmos o `tidyverse`:
 
 - **readr**: leitura dos dados <br></br>
 - **tibble**: opção ao data frame, otimizada  <br></br>
@@ -1133,7 +1154,7 @@ Assim, com o comando `library(tidyverse)` passamos a ter as seguintes biblioteca
 - **forcats**: operações com variáveis categoricas <br></br>
 - **stringr**: operações com strings <br></br>
 
-A instalação do `tidyverse` traz ainda uma série de outras bibliotecas visando usos mais especializados: 
+Adicionalmente, temos que algumas bibliotecas, apesar de não serem carregadas juntamente com os pacotes listados acima, são instaladas, estando à disposição para uso: 
 
 - **readxl**: leitura e escrita de arquivos .xls e .xlsx <br></br>
 - **haven**: leitura e escrita de arquivos SPSS, Stata, e SAS <br></br>
@@ -1141,45 +1162,36 @@ A instalação do `tidyverse` traz ainda uma série de outras bibliotecas visand
 - **broom**: resume informações de modelagem de forma estruturada <br></br>
 - **knitr**: relatórios dinâmicos <br></br>
 
-Tais bibliotecas, apesar de instaladas, precisam ser carregadas individualmente (`library(readxl)`), o que traz todas as funções disponíveis na referida biblioteca. Ou, alternativamente, chamando a função de interesse apenas (`readxl::read_xlsx()`).
+Lembrando que para utilizar as funções de tais bibliotecas é necessário carregar o pacote individualmente. Ou, alternativamente, chamando a função de interesse especificamente, por meio de comandos como: `readxl::read_xlsx()` ou `lubridate::dmilliseconds()`.
 
-```{r, echo = F, message = F}
- library(tidyverse)
-```
+Somando todas estas bibliotecas ao `Rmarkdown`, recurso que permite a execução de códigos e relatórios automaticamente. Diminuindo significantemente o gap existente entre a análise e a preparação do material a ser compartilhado com os resultados obtidos/documentação. O workflow de análise passa a ser:
 
-Somando todas estas bibliotecas ao `Rmarkdown`, que permite a execução de códigos e relatórios - mas que não precisa ser carregada, visto que o RStudio faz todo o load quando necessário. O workflow de análise passa a ser:
-
-```{r , echo=FALSE, out.width = '50%', fig.align = "center", fig.cap="Ciclo de Ciência de Dados por Tidyverse"}
+```{r , echo=FALSE, out.width = '75%', fig.align = "center", fig.cap="Ciclo de Análise da Ciência de Dados por Tidyverse"}
  knitr::include_graphics("Figs/Fig_2_DataScience_vs_Tidyverse.png")
 ```
 
 > Para consultar as funções disponíveis nas principais bibliotecas do `tidyverse` acesse as folhas de consultas (*cheat sheets*), disponíveis no site oficial do RStudio.
 
+Com todos estes pontos postos, iremos agora discutir cada um dos pilares do ciclo de análise da Ciência de Dados. 
 
 ## Importação 
-Ao longo de todo fluxo iremos utilizar várias bases de dados que as próprias bibliotecas possuem - para consultar tais dados: `data()`. Contudo, em uma análise usual, o primeiro passo é a importação dos dados. Isto pode significar ler dados armazenados em arquivos, bancos de dados ou mesmo uma API da Web. Considerando o primeiro caso, temos o `read.table()` ou `read.csv()` como principais referências do RBase, enquanto que pelo `readr` (via `tidyverse`),  temos opções mais rápidas, com argumentos padronizados, e que produzem tibbles ao invés de data.frame. Seguem alguns exemplos para a leitura de um arquivo `"file"` considerando diferentes opções de extenção e delimitadores:
+A etapa de importação de dados pode significar ler dados armazenados em: arquivos de diferentes extensões, dados provenientes de outras ferramentas, APIs da Web, e etc. Para o primeiro caso, como alternativa ao `read.table()` do `R base`, temos a versão `readr` do `tidyverse`. Nesta a leitura é mais rápida, com argumentos padronizados, e retornam `tibbles` ao invés de `data frames`. Seguem alguns exemplos para a leitura de um arquivo `"file"`, presente no diretório corrente de trabalho, considerando diferentes opções de extensões e delimitadores:
 
 - `read_csv("file.csv")` - lê arquivos delimitados por vírgula
 - `read_csv2("file.csv")` - lê arquivos delimitados por ponto e vírgula
 - `read_delim("file.txt", delim="|")` - lê arquivos delimitados por tabulação (exemplo dado para o delimitador `|`)
 - `read_fwf("file.fwf", col_positions = c(1,3,5))` - lê arquivos com largura fixa (exemplo dado para o padrão `1,3,5`)
 
-Em todos os casos é possível especificar características como: nome das colunas, cabeçalho, linhas para serem puladas, ou ainda a pré-especificação da classe de cada uma das colunas do arquivo. Contudo, no caso deste último parâmetro não ser específicado, as funções do `readr` irão "adivinhar" a classe das colunas, retornando uma mensagem com tais específicações:
+Em todos os casos é possível especificar características como: nome das colunas, cabeçalho, linhas para serem puladas, ou ainda a pré-especificação da classe de cada uma das colunas do arquivo. Contudo, no caso deste último parâmetro não ser listado, as funções do `readr` irão "adivinhar" a classe das colunas, retornando uma mensagem com tais informações, conforme exemplo abaixo:
 
 ```{r}
 read_csv(readr_example("mtcars.csv"))
 ```
 
-Adicionalmente, além das opções `readxl` e `haven`, anteriormente citadas, o R dispõe de bibliotecas como: `DBI`, `jsonlite`, `xml2`, `httr` ou `sparklyr`.
+Adicionalmente temos opções como os pacotes `readxl` e `haven`, anteriormente citadas, o R dispõe de recursos como: `DBI`, `jsonlite`, `xml2`, `httr` ou o `sparklyr`, esta última será melhor detalhada na seção referente à Big Data.
 
 ### Diretórios e Projetos 
-É importante saber que o R carrega os arquivos a partir do diretório de trabalho corrente, que pode ser consultado por meio da função `getwd()` - diretórios do Windows são especificados por meio de barras invertidas `/` ou `\\`. No caso do arquivo de interesse estar em outro diretório existem basicamente três alternativas: 
-
-- especificar na leitura do arquivo, adicionando o diretório antes do nome do arquivo: `"diretorio/arquivo.ext"`; 
-- mudar o diretório de trabalho em si, por meio da função `setdw()`; ou
-- (** recomendado **) trabalhar com a opção de projetos do RStudio (`.RProj`). Nesta, o diretório em que o arquivo `.RProj` estiver salvo, passa a ser a pasta raiz de todas as análises. Assim todas as especificações dos arquivos de input/output, scripts, e etc, podem ser setados sem a necessidade de detalhar a localização exata do diretório. Tal prática, bem como a adoção de estruturas para a organização dos arquivos, facilitam a evolução e o compartilhamento do trabalho.
-
-Para criar um projeto no RStudio, é necessário clicar no ícone superior à direita, conforme a imagem abaixo:
+Conforme apresentado anteriormente, para importar/exportar arquivos que não se encontram no diretório de trabalho corrente, podemos especificar o diretório em que o arquivo se encontra (`"diretorio/arquivo.ext"`), ou mudar o diretório de trabalho em si (`setdw()`). Existe ainda uma terceira alternativa: trabalhar com a opção de projetos do RStudio (`.RProj`). Nesta, o diretório em que o arquivo `.RProj` estiver salvo, passa a ser a pasta raiz de todas as análises. Assim todas as especificações dos arquivos de input/output, scripts, e etc, podem ser setados sem a necessidade de detalhar a localização exata do diretório. Tal prática, bem como a adoção de estruturas para a organização dos arquivos, facilitam a evolução e o compartilhamento do trabalho. Para criar um projeto no RStudio, é necessário clicar no ícone superior à direita, conforme a imagem abaixo:
 
 ```{r , echo=FALSE, out.width = '70%', fig.align = "center", fig.cap="RStudio: Projeto"}
  knitr::include_graphics("Figs/Fig_2_Projects.png")
@@ -1188,75 +1200,87 @@ Para criar um projeto no RStudio, é necessário clicar no ícone superior à di
 Posteriormente, para abrir o projeto, podemos ir no mesmo ícone, no `File/Open Project` ou ainda dando duplo click no arquivo `.Rproj`.
 
 
-## Organização 
-Após a importação dos dados, passamos para a etapa de organização, ou *tidying data*. Para isto iremos primeiramente visualizar os dados. No R existem váras funções `built-in` interessantes para fazer isso: `head()` que retorna as 6 primeiras linhas de uma base de dados, `names()` retorna o nome das colunas, o `str()` que traz uma linha para cada coluna, incluindo funções relacionadas às classes das colunas, ou ainda o `View()`, queexibe os dados em uma nova janela, permitindo filtros e ordenação, via point-and-click.
+## Tidy 
+Após a importação dos dados, passamos para a etapa de tidy dos dados, também chamada de *tidying data*. Para isto iremos primeiramente visualizar os dados, no R existem várias funções *built-in* para isto, como a função `names()`, que retorna o nome das colunas, ou `str()`, que permite a visualização da estrutura de um objeto arbitrário.   
 
-Todas as funções citadas são úteis, mas com o pacote `dplyr`, via `tidyverse`, passamos a ter ainda a função `glimpse()`, que retorna o número de observações (linhas) e variáveis (colunas) do input, seguido do nome das colunas, as respectivas classes e as observações que couberem no display do Console.
+Todas as funções citadas serão igualmente úteis e utilizadas no contexto do `tidyverse`, mas, com o pacote `dplyr`, passamos a ter também a opção `glimpse()`. Nesta, de modo similar ao `str()`, temos o número de observações (linhas) e variáveis (colunas) dos dados, porém com a quantidade de observações ajustadas ao display do Console.
 
 ```{r}
-#base para exemplo
-  mtcars
-
 #exemplo: função `glimpse` para visualização 
   mtcars %>% glimpse()
 ```
 
-A partir da visualização começamos a fazer os ajustes necessários para garantir que os dados estejam organizado de uma forma `tidy`, utilizando para tal a biblioteca `tidyr`:
+A partir da visualização começamos a fazer os ajustes necessários para garantir que os dados estejam organizado de uma forma `tidy`, tendo como principal ferramenta a biblioteca `tidyr`. Seguem as principais funções deste pacote utilizando bases disponíveis pela própria biblioteca:
 
-- **Manipulação de celulas**
-  - `gather()` - reune colunas em linhas
+- **Redimensionamento de dados**
+  - `gather()` - reorganiza os dados, combinando as colunas especificadas na coluna parâmetro `key`, e seus valores na coluna parâmetro `value`. Com tal tipo de ajuste podemos organizar os dados de modo a consultar várias colunas de interesse de uma única vez, algo útil para a aplicação de loops, funções e gráficos, conforme veremos na seção `Visualização`.
 
 ```{r}
 #base para exemplo
   table4a
 
 #exemplo: passando as colunas para linhas
-  table4a %>% 
+  table4a_new <- table4a %>% 
     gather(`1999`, `2000`, key = "ano", value = "valores") 
+  
+  table4a_new
 ```
 
 
-- `spread()` - espalha linhas em colunas.
+- `spread()` - de maneira oposta a função anterior, aqui podemos expandir linhas em colunas:
 
 ```{r}
-#base para exemplo
-  table2
-
 #exemplo: passando linhas para colunas
-  table2 %>% 
-    spread(type,count) 
+  table4a_new %>% 
+    spread(ano, valores) 
 ```
 
-- **Manipulação de celulas**
-  - `separate()` - divide uma única coluna em várias colunas.
-  - `unite()` - combina várias colunas em uma única coluna.
+- **Dividir/combinar células**
+  - `separate()` - divide uma única coluna em várias colunas, similarmente a opção `separate_rows()`, que faz a mesma coisa para linhas.
+```{r}
+#base para exemplo
+  table3
+
+#exemplo: dividindo colunas
+  table3 %>% separate(rate, into = c("cases","pop"))
+  
+#exemplo: dividindo linhas
+  table3 %>% separate_rows(rate)
+```
+  
+  - `unite()` - e de maneira oposta as separações, temos a função que combina várias colunas.
 
 ```{r}
 #base para exemplo
-  table3 
+  table3_separate <- table3 %>% separate(rate, into = c("cases", "pop"))
 
 #exemplo: separando a coluna rate em duas
-  table3 %>%
-    separate(rate, into = c("cases", "pop"))
+  table3_separate %>%
+    unite(cases, pop, col = "rate", sep = "/")
 ```
 
 - **Dados Faltantes**
-  - `replace_na()` - substituí os dados faltantes por um valor especificado
-  - `drop_na()` - excluí as linhas com dados faltantes. 
 
+  - `drop_na()` - excluí todas as linhas que apresentam elementos faltantes. 
+  - `fill()` - substituí os dados faltantes pelo valor mais recente da referida coluna.
+  - `replace_na()` - substituí os dados faltantes por um valor pré especificado.
+  
 ```{r}
 #base para exemplo
-  airquality %>% glimpse()
+  airquality[1:5,] 
 
 #exemplo: exclusão das linhas identificadas com NA
-  airquality %>%
-    drop_na() %>% 
-    glimpse()
+  airquality[1:5,] %>% drop_na() 
+  airquality[1:5,] %>% fill(c(Ozone, Solar.R)) 
+  airquality[1:5,] %>% replace_na(list(Ozone=0, Solar.R=0)) 
+
 ```
+
+> Uma função particularmente interessante é o `View()`, pertencente ao R Base, que exibe os dados em uma nova janela, permitindo recursos como filtros e ordenação, via point-and-click.
 
     
 ## Manipulação 
-A próxima etapa no processo de análise é a manipulação da base, visando desde o entendimento de suas variáveis, considerando tabulações e estatísticas, até a criação de novas variáveis. Utilizando o pacote `dplyr` para tal, temos recursos para:
+A próxima etapa no processo de análise é a manipulação da base visando desde o entendimento de suas variáveis, considerando tabulações e estatísticas, até a criação de novas variáveis. Para tal trabalharemos com o pacote `dplyr`, com recursos para:
 
   - **Manipulação de variáveis**
     - `select()` - seleciona variáveis, permitindo o uso de recursos como:
@@ -1266,63 +1290,67 @@ A próxima etapa no processo de análise é a manipulação da base, visando des
 
 ```{r}
 #base exemplo
-  iris %>% glimpse()
+  iris[1:5,] %>% as_tibble()
 
 #exemplo: seleção, mudança de nome, e definição de uma nova variável 
-  iris %>% 
+  iris[1:5,] %>% 
     as_tibble() %>% 
     select(Sepal.Length) %>% 
     rename(variavel_original = Sepal.Length) %>% 
-    #normalização feita com a função `scale` + `round` para arrendondamento 
-    mutate(variavel_original_normalizada =  variavel_original %>% scale %>% round(digits=2)) %>% 
-    glimpse()
+    mutate(variavel_original_normalizada =  variavel_original %>% scale)
 ```
 
-  - **Manipulação de casos**
-    - `filter()` - filtra linhas dos dados
-    - `slice()` - seleciona linhas por suas posições ordinais
-    - `arrange()` - ordena as linhas de acordo com as colunas especificadas
-    - `distinct()` - reporta linhas únicas de uma dada entrada
+  - **Sumarizações**
+    - `group_by()` - manipula a base de dados segmentando por cada "grupo" da variável especificada e, posteriormente, combina os resultados, considerando os comandos seguintes dados.
+    - `summarise()` - calcula resumos de uma tabela conforme especificação
 
 ```{r}
-#exemplo: seleção baseada no padrão de nomenclatura, seguida de filtro e ordenação
+#exemplo: calculo da quantidade de observações de cada categoria, e 
+# média para a variável Petal.Length considerando a visão por Species
+  iris %>% 
+    group_by(Species) %>% 
+    summarise(N = n(),
+              PetalLength_media = mean(Petal.Length))
+```   
+
+  - **Manipulação de casos**
+    - `filter()` - filtra linhas da base de dados a partir de critérios lógicos (retorno `TRUE`/`FALSE`)
+    - `slice()` - seleciona linhas por suas posições ordinais
+    - `top_n()` - ordena as primeiras `n` observações das colunas listadas 
+    - `arrange()` - ordena as linhas de acordo com as colunas especificadas
+    - `distinct()` - remove as linhas duplicadas de uma dada entrada
+
+```{r}
+#exemplo: seleção segundo padrão de nomenclatura + filtro e ordenação
   iris %>% 
     select(starts_with("Petal")) %>%
     filter(Petal.Length > 6, Petal.Width > 2) %>% 
     arrange(Petal.Width)
+
+#exemplo: valor máximo de Sepal.Length para cada specie
+  iris %>% 
+    group_by(Species) %>% 
+    top_n(1, Sepal.Length)
+  
 ```
 
-
-  - **Sumarização**
-    - `summarise()` - calcula resumo de uma tabela
-    - `group_by()` - agrupa dados por níveis categóricos
-    
-```{r}
-#exemplo: calculo da quantidade de observações de cada categoria, média e desvio padrão da Petal.Length
-  iris %>% 
-  group_by(Species) %>% 
-  summarise(N = n(),
-            PetalLength_media = mean(Petal.Length),
-            PetalLength_desvio = sd(Petal.Length))
-```   
-   
-    
   - **Amostra**
     - `sample_n()` - seleciona uma amostra aleatória considerando o número de elementos especificado
     - `sample_frac()` - seleciona uma amostra aleatória considerando a proporção especificada
  
 ```{r}
-#exemplo: obtenção de uma amostra considerando o número de observações desejado, seguido de uma amostra considerando proporção
+#exemplo: amostra considerando o número de observações desejado 
+# seguido de uma amostra considerando proporção
   iris %>% 
-  sample_n(10) %>% 
-  sample_frac(0.5) 
+    sample_n(10) %>% 
+    sample_frac(0.5) 
 ```
 
 
   - **Combinando Bases**
     - `inner_join()` - retorna todas as linhas da base à esquerda que possuem valores correspondentes na base à direita. Se houver várias correspondências entre xe y, todas as combinações das correspondências serão retornadas.
     - `left_join()` - retorna todas as linhas de x e todas as colunas de x e y. Linhas em x sem correspondência em y terão valores de NA nas novas colunas. Se houver várias correspondências entre x e y, todas as combinações das correspondências serão retornadas.
-    - `full_join()` - retornar todas as linhas e todas as colunas de xe y. Onde não há valores correspondentes, retorna NA para o ausente.
+    - `full_join()` - retorna todas as linhas e todas as colunas de xe y. Onde não há valores correspondentes, retorna NA para o ausente.
     
 ```{r, collapse = T}
 #bases para exemplo
@@ -1340,7 +1368,7 @@ A próxima etapa no processo de análise é a manipulação da base, visando des
 
 Conforme já comentado, existem bibliotecas para trabalharmos com diferentes classes de dados. Vamos citar algumas funcionalidades dos três pacotes com tal finalidade contidos no `tidyverse`:
 
-  - **factors::**
+  - **fatores**
     - `fct_count()` - conta o número de valores de cada nível
     - `fct_relevel()` - reordenar os níveis dos fatores
     - `fct_explicit_na()` - adicionar o `NA` como um dos níveis
@@ -1350,11 +1378,11 @@ Conforme já comentado, existem bibliotecas para trabalharmos com diferentes cla
   gss_cat %>% glimpse
 
 #exemplo: contabilizando a quantidade de religiões declaradas 
-  gss_cat$relig %>% 
+  gss_cat$race %>% 
   fct_count() 
 ```
 
-  - **strings::**
+  - **strings**
     - `str_detect()` - identificar a presença de padrões em uma string
     - `str_count()` - contabiliza o número de vezes que um padrão é encontrado
     - `str_replace()` - substitui um dado padrão em uma string 
@@ -1362,7 +1390,9 @@ Conforme já comentado, existem bibliotecas para trabalharmos com diferentes cla
 
 ```{r}
 #base para exemplo
-  fruit %>% as_tibble %>% glimpse
+  fruit %>% 
+    enframe %>% #versão tibble para vetores
+    glimpse
 
 #exemplo: obtenção da quantidade de palavras contendo a string "berry"
   fruit %>% 
@@ -1371,23 +1401,20 @@ Conforme já comentado, existem bibliotecas para trabalharmos com diferentes cla
     
 ```
 
-  - **date::**
+  - **datas**
     - `as_date()` - converter um objeto para uma data ou hora 
     - `wday()` - retorna o dia da semana como um número decimal 
     - `today()` - retorna a data corrente 
     - `floor_date()` - arredonda para o limite inferior mais próximo da unidade de tempo
 
-```{r, error=TRUE}
+```{r, error=TRUE, message=F}
 #exemplo: retorna erro por não ser uma data válida
   birthday <- lubridate::dmy("29/02/1971")
   
 #data ok
   birthday <- lubridate::dmy("29/02/1972"); birthday
   
-#lembrando que a biblioteca lubridate não é automaticamente carregada com o `tidyverse`, 
-  wday(birthday, label = TRUE)
-  
-#para não precisar anteceder todas as funções com `lubridate::` podemos carregar o pacote
+#carregando `lubridate`, tornando o prefixo `lubridate::` desnecessário
   library(lubridate)
   
 #obtenção do dia da semana da data especificada
@@ -1411,7 +1438,7 @@ Gráficos são ferramentas poderosas para a visualização de gráficos, e, quan
   plot(mtcars[,1:4])
 ```
 
-Porém, com a biblioteca `ggplot2`, passamos a trabalhar com gráficos de uma perspectiva mais flexível, onde o gráfico é trabalhado como um mapeamento de atributos, e assim podemos dividi-lo em camadas. Assim, a partir da especificação das variáveis no comando `ggplot()`, adicionamos camadas por meio do simbolo `+`, o que nos permite especificar o tipo de gráfico, título, rótulos, etc:
+E por meio da biblioteca `ggplot2`, passamos a trabalhar com gráficos de uma perspectiva mais flexível, onde o gráfico é trabalhado como um mapeamento de atributos, e assim podemos dividi-lo em camadas. Assim, a partir da especificação das variáveis no comando `ggplot()`, adicionamos camadas por meio do simbolo `+`, o que nos permite especificar o tipo de gráfico, título, rótulos, etc:
 
 ```{r, out.width = '60%', fig.align = "center"}
 #exemplo: gráfico de dispersão 
@@ -1495,10 +1522,9 @@ O `map()` retorna listas por default, para que o resultado tenha outra estrutura
   - `pmap()` - aplica uma função a um grupo de elementos de um grupo de listas
   - `append()` - adiciona valores ao fim de uma lista
 
-Com tais recursos podemos, por exemplo, visulizar todos os arquivos de um dado diretório:
 
 ```{r, eval=F, warning = F}
-#exemplo
+#exemplo: para visulizar todos os arquivos de um dado diretório
   list.files("\diretório", pattern='*.xlsx') %>% 
     map(read_excel) %>% 
     walk(glimpse)
@@ -1506,7 +1532,7 @@ Com tais recursos podemos, por exemplo, visulizar todos os arquivos de um dado d
 
 
 ## Comunicação
-Por fim temos a apresentação dos resultados, uma parte crítica do processo, visto que, usualmente, é neste momento que toda a análise passa a ter um significado prático. Para tal podemos exportar as informações de interesse para outras ferramentas, como excel, power point, ou etc, o que não costuma ser muito prático. Como alternativa podemos fazer a análise e montar o report conjuntamente pelo R, garantindo reprodutibilidade e histórico, por meio do Rmarkdown. Tal recurso trata-se de uma extensão do R, que permite que padrões básicos de formatação sejam utilizados, além de pedaços de código, imagens, e etc, possibilitando a geração de diferentes tipos de documentos a partir do Script do R:
+Por fim temos a apresentação dos resultados, uma parte crítica do processo, visto que, usualmente, é neste momento que toda a análise passa a ter um significado prático. Para tal podemos exportar as informações de interesse para outras ferramentas, como excel, power point, ou etc, o que não costuma ser muito prático. Como alternativa podemos fazer a análise e montar o report conjuntamente pelo R, garantindo reprodutibilidade e histórico, por meio do Rmarkdown. Tal recurso é uma extensão do R que permite que padrões básicos de formatação sejam utilizados, além de pedaços de código, imagens, e etc, possibilitando a geração de diferentes tipos de documentos a partir do Script do R:
 
 
 ```{r , echo=FALSE, out.width = '40%', fig.align = "center", fig.cap="RMarkdown"}
@@ -1518,11 +1544,11 @@ Para criar tais arquivos basta ir em 'File > New File > R Markdown ...', preench
 
 <!--------------------------------------------------> ____
 # R para Big Data
-O R, por padrão, trabalha com dados carregados em memória, por meio de processamento sequencial, o que pode limita tanto o tamanho da base de dados que podemos trabalhar, quanto a velocidade de análise. Alternativas para quando estamos sob alguma destas limitações incluem: trabalhar com amostragens, usar um computador com mais recursos, acessar os dados considerando outras formas, ou segmentar de dados. Trataremos aqui das duas últimas opções:
+O R, por padrão, trabalha com dados carregados em memória, por meio de processamento sequencial, o que pode limita tanto o tamanho da base de dados que podemos trabalhar, quanto a velocidade de análise. Alternativas para quando estamos sob alguma destas limitações incluem: trabalhar com amostragens, usar um computador com mais recursos, acessar os dados considerando outras formas de leitura/processamento, ou segmentação de dados. Detalhando estas duas últimas opções temos:
 
 - outras formas de acesso: 
   - substituir os data.frames/tibbles pelo data.table, da biblioteca `data.table()`, uma vez que este trabalha com otimização de processamento e memória;
-  - processar os dados em disco, ao invés da memória, por meio de bibliotecas como `bigmemory` e `ff`;
+  - processar os dados em disco, ao invés da memória, por meio de bibliotecas como `bigmemory`, `ff` ou `RevoScaleR`;
   - dado que o R é por padrão uma linguagem interpretada, utilizar funções como `compile()` ou `enableJIT()` para acelerar o processamento de uma análise, principalmente se ela for executada repeditamente; e
   - utilizar pacotes que possibilitam paralelismo, como `Foreach` ou `Multicore`.
 
@@ -1533,17 +1559,31 @@ Visando ilustrar a facilidade de tais integrações, segue a aplicação do mesm
 
 
 ```{r}
-#carregando da biblioteca após sua instalação
-#library(sparklyr)
-
-#conectando com o sparkly
-#spark_conexao  <- spark_connect(master = "local")
-
-  #xxx
-
-#Disconnect from Spark
-#spark_disconnect(sc = spark_conexao)
-
+# #carregando da biblioteca após sua instalação
+# library(sparklyr)
+# library(dplyr)
+# 
+# #criando uma conexão
+# spark_conexao <- spark_connect(master = "local")
+# 
+#  #transformando os dados de memŕia numa tbl_spark
+#   mtcars_tbl <- sdf_copy_to(spark_conexao, 
+#                             mtcars, name = "mtcars_tbl", 
+#                             memory = FALSE)
+#   class(mtcars_tbl)
+# 
+#  #verificando a estrutura dos dados
+#   mtcars_tbl %>% glimpse()
+# 
+#  #selecionando alguma variaveis usando o dplyr
+#   mtcars_reduzido <- mtcars_tbl %>% 
+#     select(mpg, hp)
+# 
+#  #salvando o mtcars_reduzido em memória
+#   mtcars_reduzido_ram <- collect(mtcars_reduzido)
+# 
+# #Disconnect from Spark
+# spark_disconnect(sc = spark_conexao)
 ```
 
 Vale ressaltar que muitas das soluções que envolvem Big Data no R são novas, assim como o ecosistema de Big Data em si. E, portanto, estão em constante desenvolvimento, aumentando ainda mais a importância de manter o tracking de melhorias e correções dos pacotes. Vale ressaltar que mesmo com toda a necessidade de ajustes aqui apresentada, a quantidade de recursos que o R oferece para o flow da Ciência de Dados, faz com que grandes empresas, como Google, Microsoft, Bank of America e Shell, optem por trabalhar com a linguagem R.
