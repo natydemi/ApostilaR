@@ -40,7 +40,7 @@ Para instalar o R o primeiro passo é entrar na página oficial do 'The R Projec
 
 <!-- ![Download do R](Figs/Fig_Download_R.png){width=5cm} -->
 
-Click duas vezes no arquivo de instalação baixado, selecione o idioma de sua preferência, e então você estará no Assistente de Instalação. Caso você não seja administrador, na tela em que especifica a pasta em que o programa será instalado, é necessário alterá-lo para um repositório dentro do seu usuário, no mais basta seguir o padrão de instalação do Windows até a conclusão da instalação. Pronto! Tendo o R na sua máquina, você pode acessa-lo via ícone na área de trabalho, busca do Windows, ou pelo executável que se encontra na pasta em que o R foi instalado. E ao digitar `"Hello World"` na janela "R Console" temos:
+Click duas vezes no arquivo de instalação baixado, selecione o idioma de sua preferência, e então você estará no Assistente de Instalação. Caso você não seja administrador, na tela em que especifica a pasta em que o programa será instalado, é necessário alterá-lo para um repositório dentro do seu usuário. No mais, basta seguir o padrão de instalação do Windows até a conclusão da instalação. Pronto! Tendo o R na sua máquina, você pode acessa-lo via ícone na área de trabalho, busca do Windows, ou pelo executável que se encontra na pasta em que o R foi instalado. E ao digitar `"Hello World"` na janela "R Console" temos:
  
 ```{r , echo=FALSE, out.width = '50%', fig.align = "center", fig.cap="R: Hello World."}
  knitr::include_graphics("Figs/Fig_0_R_HelloWorld.png")
@@ -49,13 +49,13 @@ Click duas vezes no arquivo de instalação baixado, selecione o idioma de sua p
 Via point-and-click temos opções que vão desde mudanças de diretórios até a instalação de bibliotecas. Porém, por se tratar de um interpretador, tais opções são limitadas, e temos poucos recursos em termos de usabilidade. Como alternativa podemos trabalhar em Ambientes de Desenvolvimento Integrados, ou IDEs, como são mais conhecidas (*Integrated Development Environment*). A mais difundida no caso do R é o **RStudio**:
 
 ### A IDE RStudio 
-O RStudio trata-se de uma IDE do R, amplamente difundida dado os seus muitos recursos, conforme poderemos vivenciar ao longo desta apostila. Para fazer o download do RStudio entre na página oficial do RStudio (<https://www.rstudio.com/>), na opção 'Download' RStudio, após passar pela descrição das opções disponíveis do RStudio, você encontrará a lista de instaladores organizados segundo os sistemas operacionais e processadores compatíveis: 
+O RStudio é de uma IDE do R, amplamente difundida dado os seus muitos recursos, conforme poderemos vivenciar ao longo desta apostila. Para fazer o download do RStudio entre na página oficial do RStudio (<https://www.rstudio.com/>), na opção 'Download' RStudio, após passar pela descrição das opções disponíveis do RStudio, você encontrará a lista de instaladores organizados segundo os sistemas operacionais e processadores compatíveis: 
 
 ```{r, echo=FALSE, out.width = '50%', fig.align = "center", fig.cap="RStudio: Download."}
  knitr::include_graphics("Figs/Fig_0_RStudio_Download.png")
 ```
 
-Caso você tenha acesso administrador baixe a versão correspondente ao seu ambiente a partir da lista de *Installers for Supported Platforms*, abra o instalador e siga as instruções, até a conclusão da instalação. Caso não, faça o download a partir da lista *Zip/Tarballs*, e extraia os arquivos para a pasta desejada. Entre na pasta extraída e procure o diretório `\bin`, nele você irá encontrar um arquivo chamado rstudio, clique duas vezes e você estará no RStudio. E, similarmente ao caso anterior, ao digitar `"Hello World"` na janela Console, teremos: 
+Caso você tenha acesso de administrador baixe a versão correspondente ao seu ambiente a partir da lista de *Installers for Supported Platforms*, abra o instalador e siga as instruções, até a conclusão da instalação. Caso não, faça o download a partir da lista *Zip/Tarballs*, e extraia os arquivos para a pasta desejada. Entre na pasta extraída e procure o diretório `\bin`, nele você irá encontrar um arquivo chamado rstudio, clique duas vezes e você estará no RStudio. E, similarmente ao caso anterior, ao digitar `"Hello World"` na janela Console, teremos: 
 
 ```{r, echo=FALSE, out.width = '50%', fig.align = "center", fig.cap="RStudio: Hello World."}
  knitr::include_graphics("Figs/Fig_0_RStudio_HelloWorld.png")
@@ -69,7 +69,7 @@ O RStudio possui uma série de recursos que facilitam a utilização do R, uma d
 
   - **Console**: painel onde os comandos são executados interativamente, permitindo opções como autocompletar e consultas por meio da tecla 'Tab', ou o acesso aos comandos já digitados via a tecla 'Seta para cima'; 
 
-  - **Source**: onde são abertos os scripts do R, ou seja, onde você irá escrever o código, que só será enviado para o Console. Para abrir um script podemos ir via point-and-click 'File > New File > R Script' ou pelo atalho Ctrl+Shift+N; 
+  - **Source**: onde são abertos os scripts do R, ou seja, onde você irá escrever o código, que só será enviado para o Console quando executado. Para abrir um script podemos ir via point-and-click 'File > New File > R Script' ou pelo atalho Ctrl+Shift+N; 
   
 ```{r, echo=FALSE, out.width = '50%', fig.align = "center", fig.cap="RStudio: Painéis."}
  knitr::include_graphics("Figs/Fig_0_RStudio_Panes.png")
@@ -78,7 +78,7 @@ O RStudio possui uma série de recursos que facilitam a utilização do R, uma d
 Adicionalmente temos também:
 
 - **Environment**: listagem dos objetos definidos ao longo da sessão;
-- **Files**: acesso as pastas e arquivos do computador;
+- **Files**: acesso às pastas e arquivos do computador;
 - **Help**: menu de ajuda e visualização das documentações consultadas;
 - **History**: consulta do histórico de comandos;
 - **Packages**: gerenciamento das bibliotecas instaladas;
@@ -102,7 +102,7 @@ Para a familiarização tanto com a interface básica do R, quanto com a sua IDE
   1 + 1.5
 ```
 
-Note que no Console do R os textos precedidos por `#` tratam-se de comentários, enquanto que os antecedidos por `>` caracterizam resultados - neste material os resultados serão precedidos por ` #>`, visando diferencia-lo dos comandos:
+Note que no Console do R os textos precedidos por `#` são comentários, enquanto que os antecedidos por `>` caracterizam resultados - neste material os resultados serão precedidos por ` #>`, visando diferencia-lo dos comandos:
 
 ```{r, echo=FALSE, out.width = '50%', fig.align = "center", fig.cap="RStudio: Calculadora."}
  knitr::include_graphics("Figs/Fig_1_Calculadora.png")
@@ -126,7 +126,7 @@ Seguem mais algumas operações aritméticas básicas:
   10 %/% 3  
 ```
 
-Em todos os casos o resultado foi precedido por `[1]`, o que faz referência a quantidade de elementos dos resultado, voltaremos neste ponto na seção de Vetores atômicos. 
+Em todos os casos o resultado foi precedido por `[1]`, o que faz referência à quantidade de elementos do resultado. Voltaremos a este ponto na seção de Vetores atômicos. 
 
 O R permite ampliar as equações mantendo a notação básica de operações algébricas, como a aplicação hierárquica de parênteses ou de operações. Vale ressaltar que somente os parênteses podem ser utilizados nas expressões matemáticas, visto que as chaves `{}` e os colchetes `[]` possuem finalidades próprias (bloco de *statements* e *subsetting* de dados, respectivamente):
 
@@ -163,7 +163,7 @@ No caso de digitarmos um comando incompleto no Console, como `8 ==` ou `6 + ` se
 
 
 ## Aplicando funções 
-Assim como em muitas linguagens, uma função no R trata-se de um conjunto de instruções organizadas visando executar uma tarefa. E nesta linguagem funções possuem um papel fundamental, visto não só as muitas opções disponíveis via instalação de bibliotecas, mas também as funções *built-in*, ou seja, funções já embutidas na sua instalação básica. Considerando apenas tais funções, podemos fazer desde cálculos aritméticos e leitura de dados, até tabelas, gráficos e modelos estatísticos. 
+Assim como em muitas linguagens de programação, uma função no R é de um conjunto de instruções organizadas visando executar uma tarefa. E nesta linguagem funções possuem um papel fundamental, visto não só há muitas opções disponíveis via instalação de bibliotecas, mas também as funções *built-in*, ou seja, funções já embutidas na sua instalação básica. Considerando apenas tais funções, podemos fazer desde cálculos aritméticos e leitura de dados, até tabelas, gráficos e modelos estatísticos. 
 
 O nome de tais funções no R são, em geral, intuitivos, como a função `exp()` por exemplo, que calcula o exponencial de um número:
 
@@ -174,7 +174,7 @@ O nome de tais funções no R são, em geral, intuitivos, como a função `exp()
   exp
 ```
 
-Uma das funções mais importantes no R é a função `help()`, ou ainda `?`, o seu operador equivalente. Pois por meio desta função temos acesso à documentação referente ao objeto que estivermos consultando - `help(função_desejada)` ou `?função_desejada`. Com isto temos acesso a informações como: descrição do objeto consultado, possibilidades de alterações, funções relacionadas, exemplos, entre outros. Consultando o help para a função `log` por exemplo, temos que é possível mudar a base segundo a qual o logaritmo é computado, e como fazer isso:
+Uma das funções mais importantes no R é a função `help()`, ou ainda `?`, o seu operador equivalente. Pois por meio desta função temos acesso à documentação referente ao objeto que estivermos consultando - `help(função_desejada)` ou `?função_desejada`. Com isto temos acesso a informações como: descrição do objeto consultado, possibilidades de alterações, funções relacionadas, exemplos, entre outros. Consultando o help para a função `log` por exemplo, vemos que é possível mudar a base segundo a qual o logaritmo é computado, e como fazer isso:
 
 ```{r, echo=FALSE, out.width = '50%', fig.align = "center", fig.cap="RStudio: Help."}
  knitr::include_graphics("Figs/Fig_1_Help.png")
@@ -200,7 +200,7 @@ No caso de consultas que envolvam objetos com caracteres especiais, é necessár
 > A função `builtins()` retorna todas as funções *built-in* disponíveis no R.
 
 ## Criando objetos 
-Objetos no R são elementos que podem ser armazenados em variáveis, isto vale para dados, funções, símbolos e até expressões. Podemos criar objetos utilizando o sinal de `<-` ou `=`, para atribuições da direita para a esquerda, ou `->` para atribuições da esquerda para a direita. A recomendação é trabalhar com `<-` para atribuições de objetos, e `=` para a especificação de parâmetros, visto as características de cada um dos operadores. Existem ainda os operadores `<<-` e `->>`, que são usualmente utilizados no contexto de funções, quando há o interesse em trabalhar com objetos de uma forma mais ampla - não nos aprofundaremos no tema, para mais detalhes consulte ``` ?`<<-` ```.
+Objetos no R são elementos que podem ser armazenados em variáveis - isto vale para dados, funções, símbolos e até expressões. Podemos criar objetos utilizando o sinal de `<-` ou `=`, para atribuições da direita para a esquerda, ou `->` para atribuições da esquerda para a direita. A recomendação é trabalhar com `<-` para atribuições de objetos, e `=` para a especificação de parâmetros, visto as características de cada um dos operadores. Existem ainda os operadores `<<-` e `->>`, que são usualmente utilizados no contexto de funções, quando há o interesse em trabalhar com objetos de uma forma mais ampla - não nos aprofundaremos no tema, para mais detalhes consulte ``` ?`<<-` ```.
 
 Objetos podem ser nomeados com letras, números, e os símbolos `.` e `_`, desde que o nome não seja iniciado com números ou com um símbolo imediatamente seguido por um número. Adicionalmente, o R é uma linguagem sensível ao caso e, portanto, diferencia letras maiúsculas e minúsculas: 
 
@@ -277,7 +277,7 @@ Para listar todos os objetos disponíveis na sessão podemos utilizar a função
 
 
 ## Entendendo dados 
-Para tirar maior proveito da linguagem R é importante entender os diferentes tipos e estruturas de dados disponíveis, Para tal vamos primeiramente entender sobre os tipos de dados:
+Para tirar maior proveito da linguagem R é importante entender os diferentes tipos e estruturas de dados disponíveis. Para tal, vamos primeiramente entender sobre os tipos de dados:
 
 ### Tipos de dados 
 No R existem seis tipos de dados, que basicamente indicam como os objetos são armazenados (*low-level*):
@@ -482,7 +482,7 @@ O R permite que adicionemos atributos aos objetos, o que significa associar prop
 Por meio de tais atributos podemos construir casos especiais importantes:
 
 ##### Fatores 
-Fatores tratam-se de vetores atômicos que possuem um número limitado de categorias (níveis), o que nos permite trabalhar com variáveis categóricas, que são tratadas de forma diferenciada para algumas análises (como em modelos de regressão p.e.). Tais objetos podem ser armazenados como strings ou inteiros, e possuem nomes associados, chamados níveis, ou *levels*. Por padrão, o R armazena tais níveis em ordem alfabética:
+Fatores são vetores atômicos que possuem um número limitado de categorias (níveis), o que nos permite trabalhar com variáveis categóricas, que são tratadas de forma diferenciada para algumas análises (como em modelos de regressão p.e.). Tais objetos podem ser armazenados como strings ou inteiros, e possuem nomes associados, chamados níveis, ou *levels*. Por padrão, o R armazena tais níveis em ordem alfabética:
 
 ```{r}
   ex_fator <- factor(LETTERS[1:5])
@@ -632,7 +632,7 @@ Em relação às operações, as matrizes e arrays funcionam similarmente aos ve
 
 
 #### Data frames 
-Data Frames tratam-se de estruturas bidimensionais mais genéricas que as matrizes, uma vez que as colunas podem conter tipos de objetos diferentes. Tais estruturas, similares a uma tabela SQL ou uma planilha do Excel, são usualmente o formato que dados importados ao se ler dados no R:  
+Data Frames são estruturas bidimensionais mais genéricas que as matrizes, uma vez que as colunas podem conter tipos de objetos diferentes. Tais estruturas, similares a uma tabela SQL ou uma planilha do Excel, são usualmente o formato que dados importados ao se ler dados no R:  
 
 ```{r}
 #é possível criar data frames a partir de objetos existentes
@@ -1054,7 +1054,7 @@ Visando descomplicar tais ciclos no contexto da programação R iremos trabalhar
 
 
 ## O universo tidyverse 
-O `tidyverse` trata-se de um conjunto de bibliotecas que compartilham a mesma gramática, contemplando todo o ciclo de análise da ciência de dados, tendo como base dados *tidy*, uma forma padronizada de vincular a estrutura de um conjunto de dados (seu layout físico) com sua semântica (seu significado). Para tal temos que, independente da origem, características, problemas e layout dos dados, estes precisam ser organizados de modo que:
+O `tidyverse` é um conjunto de bibliotecas que compartilham a mesma gramática, contemplando todo o ciclo de análise da ciência de dados, tendo como base dados *tidy*, uma forma padronizada de vincular a estrutura de um conjunto de dados (seu layout físico) com sua semântica (seu significado). Para tal temos que, independente da origem, características, problemas e layout dos dados, estes precisam ser organizados de modo que:
 
 - cada variável tenha a sua própria coluna;
 - cada observação tenha a sua própria linha; e
