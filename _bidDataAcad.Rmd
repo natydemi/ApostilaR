@@ -9,7 +9,8 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, collapse=T, comment="  #>")
+knitr::opts_chunk$set(echo = TRUE, collapse=T, 
+                      comment="  #>", fig.align = "center")
 
 # to do list
 ## open source and cross-platform
@@ -18,15 +19,16 @@ knitr::opts_chunk$set(echo = TRUE, collapse=T, comment="  #>")
 
 <!--------------------------------------------------> ____
 # Prefácio 
-Esta apostila está estruturada considerando três etapas: a apresentação do ambiente R, a sua linguagem de programação, considerando aspectos estruturais da linguagem, e por fim a apresentação do R com foco na rotina de análise da Ciência de Dados.  
+Esta apostila está estruturada considerando três etapas: a apresentação do ambiente R, a sua linguagem de programação, considerando aspectos estruturais da linguagem, e por fim a apresentação do R com foco na rotina de análise da Ciência de Dados. 
 
 
 <!--------------------------------------------------> ____
 # O Ambiente R 
 ## O que é e por que usar? 
-O R é uma linguagem de programação interpretada, além de um ambiente de software gratuito. Criado em 1995, no departamento de Estatística da Universidade de Auckland - Nova Zelândia, por Ross Ihaka e Robert Gentleman. Foi batizado como “R”, tanto pelo nome de seus criadores, quanto para fazer uma provocação à linguagem S, visto ser uma implementação desta. 
+O R é uma linguagem de programação interpretada, além de um ambiente de software gratuito. Criado em 1995, no departamento de Estatística da Universidade de Auckland - Nova Zelândia, por Ross Ihaka e Robert Gentleman. Foi batizado como “R”, tanto pelo nome de seus criadores, quanto para fazer uma provocação à linguagem S, visto ser uma implementação desta.
 
-O ambiente R é disponibilizado em diferentes tipos de plataformas, oferecendo um vasto leque de funcionalidades, bases de dados, e integrações com outras linguagens de programação, tudo acessível via bibliotecas. Tais bibliotecas podem ser instaladas ou desenvolvidas pelo próprio usuário, neste último caso permitindo a disponibilização em repositórios públicos para o acesso dos demais usuários. Em termos de suporte, o R possui uma comunidade extremamente ativa, engajada no aprimoramento direto da ferramenta, desenvolvimento de novas bibliotecas, e suporte gratuito dos usuários, por meio de fóruns online, encontros presenciais e materiais dos mais diferentes tipos. 
+O ambiente R é disponibilizado em diferentes tipos de plataformas, oferecendo um vasto leque de funcionalidades, bases de dados, e integrações com outras linguagens de programação, tudo acessível via bibliotecas. Tais bibliotecas podem ser instaladas ou desenvolvidas pelo próprio usuário, neste último caso permitindo a disponibilização em repositórios públicos para o acesso dos demais usuários. Em termos de suporte, o R possui uma comunidade extremamente ativa, engajada no aprimoramento direto da ferramenta, desenvolvimento de novas bibliotecas, e suporte gratuito dos usuários, por meio de fóruns online, encontros presenciais e materiais dos mais diferentes tipos.
+
 
 O R é descrito no seu site oficial (<https://www.r-project.org/>) como um ambiente para computação estatística e gráficos. Isto se deve a sua larga, coerente e integrada coleção de recursos para todo o workflow da análise de dados (leitura, limpeza, visualização, modelagem e comunicação de dados). Tendo ainda que se trata de um ambiente muito utilizado na academia, fazendo com que muitas metodologias novas sejam primeiramente implementadas no R. Somando tais características à amplitude e gratuidade da ferramenta, temos que o R atualmente é um dos principais ambientes para trabalhar com análise de dados.
 
@@ -200,9 +202,9 @@ No caso de consultas que envolvam objetos com caracteres especiais, é necessár
 > A função `builtins()` retorna todas as funções *built-in* disponíveis no R.
 
 ## Criando objetos 
-Objetos no R são elementos que podem ser armazenados em variáveis - isto vale para dados, funções, símbolos e até expressões. Podemos criar objetos utilizando o sinal de `<-` ou `=`, para atribuições da direita para a esquerda, ou `->` para atribuições da esquerda para a direita. A recomendação é trabalhar com `<-` para atribuições de objetos, e `=` para a especificação de parâmetros, visto as características de cada um dos operadores. Existem ainda os operadores `<<-` e `->>`, que são usualmente utilizados no contexto de funções, quando há o interesse em trabalhar com objetos de uma forma mais ampla - não nos aprofundaremos no tema, para mais detalhes consulte ``` ?`<<-` ```.
+Objetos no R são elementos que podem ser armazenados em variáveis - isto vale para dados, funções, símbolos e até expressões. Podemos criar objetos utilizando o sinal de `<-` ou `=`, para atribuições da direita para a esquerda, ou `->` para atribuições da esquerda para a direita. A recomendação é trabalhar com `<-` para atribuições de objetos, e `=` para a especificação de parâmetros, visto as características de cada um dos operadores. Existem ainda os operadores `<<-` e `->>`, que são usualmente utilizados no contexto de funções, quando há o interesse em trabalhar com objetos definidos globalmente - voltaremos neste tema no capítulo [Criando funções](#CriandoFuncoes) - para mais detalhes consulte o help deste operador ``` ?`<<-` ```.
 
-Objetos podem ser nomeados com letras, números, e os símbolos `.` e `_`, desde que o nome não seja iniciado com números ou com um símbolo imediatamente seguido por um número. Adicionalmente, o R é uma linguagem sensível ao caso e, portanto, diferencia letras maiúsculas e minúsculas: 
+Objetos podem ser nomeados com letras, números, e os símbolos `.` e `_`, desde que o nome não seja iniciado com números ou com um símbolo imediatamente seguido por um número. Adicionalmente, o R é uma linguagem sensível ao caso (*case sensitive*) e, portanto, diferencia letras maiúsculas e minúsculas: 
 
 
 ```{r}
@@ -219,9 +221,10 @@ Objetos podem ser nomeados com letras, números, e os símbolos `.` e `_`, desde
 
 No R existem alguns nomes reservados para representar os seguintes casos especiais:
 
-- **NA** (Not Available): dado faltante ou indisponível (similar ao null do SQL/SAS). 
 
-- **NaN** (Not a Number): representa indefinições matemáticas, como o log de números negativos.
+- **NA** (*Not Available*): uma constante lógica utilizada para representar dados faltantes, porém podendo ser também definido qualquer um dos tipos de dados descritos na próxima seção (exceto *raw*). Equivalente ao `NULL` das linguagens SQL e SAS.
+
+- **NaN** (*Not a Number*): objeto lógico representando indefinições matemáticas, como log de números negativos.
 
 - **Inf** (Infinito): conceito matemático (positivo ou negativo).
 
@@ -236,13 +239,50 @@ Podemos utilizar as funções com o prefixo `is.` para testar se um objeto é um
   is.null(NA)
 ```
 
+Apesar da relativa similaridade entre as definições dadas, as diferenças não só existem como também podem ser observadas na prática, como por exemplo: 
+
+```{r}
+#exemplos
+  #NULL possui tamanho zero, diferentemente das demais:
+  length(NULL)
+  length(NaN); length(NA); length(Inf)
+  
+  #Inf vs NaN
+  pi / 0 
+  0 / 0  
+
+  #NA: informação de dado faltante e do tipo de objeto 
+  is.nan(as.character(NaN))
+  is.na(as.character(NA))
+  #tipos de objeto serão discutidos no próximo capítulo
+
+```
+
+Visto a relevância de tais objetos, estes não podem ser reescritos. Diferentemente de outras constantes, também pré definidas:
+
+
+```{r, error=T}
+#não conseguimos redefinir
+  NA <- 0
+
+#enquanto que para constantes pré existentes como:
+  pi #ou
+  letters
+  
+  pi <- 0; letters <- 1
+  pi; letters
+
+
+```
+
+
 Ao criar objetos passamos a ter a informação que estes carregam salvos na memória, e podemos chama-los a qualquer momento. Assim, sempre que o R encontrar algum destes objetos, ele irá substituí-lo pelos valores armazenados, inclusive aplicando em funções: 
 
 ```{r, echo=FALSE, out.width = '50%', fig.align = "center", fig.cap="RStudio: Objetos."}
  knitr::include_graphics("Figs/Fig_1_Objects.png")
 ```
 
-Além de criar objetos atribuindo elementos diretamente a eles, podemos fazer a partir de operações entre elementos, entre objetos e como resultados de funções. Adicionalmente, para excluirmos um objeto, podemos utilizar a função `rm(nome_do objeto)`:
+Além de criar objetos atribuindo elementos diretamente a eles, podemos fazer a partir de operações entre elementos, entre objetos e como resultados de funções. Adicionalmente, para excluirmos um objeto, podemos utilizar a função `rm(nome_do objeto)`, seguido de `gc()`, para garantir a rápida liberação da referida memória:
 
 ```{r, error=T} 
 #atribuindo um elemento diretamente
@@ -632,7 +672,7 @@ Em relação às operações, as matrizes e arrays funcionam similarmente aos ve
 
 
 #### Data frames 
-Data Frames são estruturas bidimensionais mais genéricas que as matrizes, uma vez que as colunas podem conter tipos de objetos diferentes. Tais estruturas, similares a uma tabela SQL ou uma planilha do Excel, são usualmente o formato que dados importados ao se ler dados no R:  
+Data Frames são estruturas bidimensionais mais genéricas que as matrizes, uma vez que as colunas podem conter tipos de objetos diferentes. Tais estruturas, similares a uma tabela SQL ou uma planilha do Excel, são usualmente o formato utilizado ao se importar dados para o R:  
 
 ```{r}
 #é possível criar data frames a partir de objetos existentes
@@ -646,21 +686,22 @@ Data Frames são estruturas bidimensionais mais genéricas que as matrizes, uma 
 ```
 
 - **Consulta** <br>
-Além das consultas similares às que vimos para as demais estruturas, um data.frame permite algumas outras opções:
+Com consultas similares às que vimos para as demais estruturas, um data.frame permite consultas especificando entre colchetes as linhas e colunas, respectivamente, separados por uma vírgula:
 
 ```{r}
-#considerando o nome das colunas
-  ex_df[c("idade","classe")]
-  ex_df$idade
-  
-#as linhas de interesse  
+#vetores de índice:
+  ex_df[2,2]
   ex_df[c(2,4),]
-  ex_df[ex_df$idade>30,]
-  ex_df[which(flag==TRUE),] 
-  
-# ou ambos  
-  ex_df[1:2,"flag"]
   ex_df[1,1:2]
+
+#nomenclatura:
+  ex_df$idade
+  ex_df[c("idade","classe")]
+
+#vetores lógicos, e combinando as opções anteriores:
+  ex_df[ex_df$idade>30,1]
+  ex_df[rownames(ex_df)==4,]
+  ex_df[which(flag==TRUE),] 
 ```
 
 
@@ -750,7 +791,7 @@ Listas seguem a mesma lógica dos vetores e data.frames em relação às operaç
 ## Analisando dados 
 Agora que temos familiaridade com os dados no R, vamos análisar uma base de dados do próprio R, visando apresentar algumas das funções *built-in* disponibilizadas para tal, bem como apresentar formas de importar/exportar dados.
 
-### Análises Descritivas
+### Análises Descritivas {#AnalisesDescritivas}
 Iremos trabalhar com a base `mtcars`, uma das bases disponíveis por default no R. Por se tratar de uma base *built-in*, apesar dela ser normalmente retornada no console, para que ela conste como um dos objetos no `Environment` da sessão de trabalho, o seguinte comando é necessário: `data(mtcars)`. Para mais detalhes sobre a referida base de dados, contulte: `?mtcars`. 
 
 ```{r}
@@ -782,32 +823,36 @@ tail(mtcars)
   summary(mtcars[,1:4])
 ```
 
-As mesmas informações obtidas oderiam ser acessadas por meio das funções , temos estatísticas como média (`mean()`), mediana (`median()`) ou máximo (`max()`), porém precisariam ser aplicadas a cada uma das colunas - ou por meio de loops, que veremos na próxima seção. No que se tivessemos outras classes de dados no data.frame a função `summary()` retornaria outras estatísticas, como por exemplo:
+As mesmas informações obtidas oderiam ser acessadas por meio das funções , temos estatísticas como média (`mean()`), mediana (`median()`), mínimo (`min()`), máximo (`max()`) e quantís (`quantile()`), porém precisariam ser aplicadas a cada uma das colunas - ou por meio de loops, que veremos na próxima seção. No que se tivessemos outras classes de dados no data.frame a função `summary()` retornaria outras estatísticas, no caso a contagem das ocorrências - neste contexto a função `table()` também seria interessante:
 
 ```{r}
   ex <- data.frame(var_logical = c(TRUE,TRUE,FALSE,TRUE,FALSE),
                    var_factor = factor(c("A","A","B","B","C"), ordered = TRUE))
   str(ex)
   summary(ex)
+  table(ex)
 ```
 
-Para aumentar o grau de entendimento da base, podemos visualizar os dados, por meio do `boxplot()`, que apresenta parte das informações do `summary()` de forma gráfica: 
+Para aumentar o grau de entendimento da base, podemos trabalhar com as muitas opções gráficas que o R oferece. Como exemplo, temos a função `boxplot()`, que permite uma leitura visual da distribuição dos dados, como paralelo à função `summary`, ou a função `hist()`, que retorna o histograma para uma variável pré especificada:
 
 ```{r}
   boxplot(mtcars)
+  hist(mtcars$qsec)
 ```
 
-Ou entender a relação entre os dados, considerando, por exemplo a matriz de correlações, que avalia as variáveis dois a dois, tanto do ponto de vista gráfico quanto numérico:
+Lembrando que, assim como para as funções do R em geral, os gráficos possuem várias opções de argumento, permitindo o ajuste de rótulos, cores, títulos, etc - para mais detalhes consulte o `help()` da função de interesse. 
+
+Outra opção interessante trata da função `plot()`, que retorna um gráfico genérico, definido a partir da estrutura e tipo dos dados. No caso das três primeiras colunas da base `mtcars` por exemplo, temos os gráficos de dispersão, obtidos para todos os pares de variáveis - o que conversa diretamente com a função `cor()` que calcula a matriz de covariância dos dados:
 
 ```{r}
-#considerando as 3 primeiras colunas:
-  #gráfico
+#considerando as 3 primeiras colunas dos dados:
+  #representação gráfica
     plot(mtcars[,1:3])
-  #numérico
+  #representação numérica
     cor(mtcars[,1:3])
 ```
 
-Similarmente, podemos aplicar testes estatísticos (e.g. `t.test()`), modelos de regressão/supervised models (`lm()`), análises de cluster/unsupervised (`kmeans()`) entre outras. Contudo, tendo sempre em mente que tais técnicas possuem diferentes opções de parâmetros, além de premissas metodologicas que, caso não respeitadas, podem nos levar a conclusões equivocadas.
+No R é possível evoluir de análises descritivas para inferências de forma relativamente simples. Podemos, por exemplo, aplicar testes estatísticos (e.g. `t.test()`), modelos de regressão/supervised models (`lm()`), análises de cluster/unsupervised (`kmeans()`) entre outras. Contudo, tendo sempre em mente que tais técnicas possuem diferentes opções de parâmetros, além de premissas metodológicas que, caso não respeitadas, podem nos levar a conclusões equivocadas.
 
 Outro aspecto importante de uma análise diz respeito a transformações que podemos ter o interesse em fazer, como reordenar uma coluna, ou substituir algum elemento. No caso das bases *built-in* não temos o poder de fazer tais alterações, sendo assim podemos salvar uma base paralela para tais alterações - não alterar os dados originais é uma prática recomendada na análise de dados:
 
@@ -849,7 +894,7 @@ Tanto a função `write.table()` quanto a `read.table()`possuem uma série de pa
 > para consultar funções relacionadas pesquise os tópicos `??read` e `??write`.
 
 ## Estruturas de controle 
-No que se refere as estruturas de controle - blocos de programação que, baseado em parâmetros pré-definidos, define a direção a seguir - o R possui todas as funções usualmente existentes em outras linguagens de programação. Assim, considerando os operadores lógicos abaixo:
+No que se refere as estruturas de controle - blocos de programação que, baseado em parâmetros pré-definidos, define a direção a seguir - o R possui todas as funções usualmente existentes em outras linguagens de programação. Contudo, para otimizar o trabalho com tais ferramentas, vamos primeiro listar os principais operadores lógicos disponíveis no R:
 
 ```{r, eval=F}
 #retorna TRUE (T) ou FALSE (F) se:
@@ -861,7 +906,9 @@ No que se refere as estruturas de controle - blocos de programação que, basead
   x %in% y #se os elementos à esquerda, um a um, estão contidos à direita
 ```
 
-Temos as principais estruturas considerando fluxos condicionais e de repetição são:
+Adicionalmente, no caso de termos vetores lógicos, as funções `any()` e `all()`, ou ainda a função `identical()` são consideravelmente úteis - função esta que precisa ser analisada com cuidado, visto trabalhar de forma bem restrita, retornando `FALSE` para diferenças sutís, como por exemplo: `identical(1,1L)`. 
+
+Voltando as estruturas de controle, considerando fluxos condicionais e de repetição, temos:
 
 - **if** - se a declaração testada for verdade, ou seja, retornar `TRUE`, então os comandos especificados dentro das chaves `{}` serão executados: 
 
@@ -929,8 +976,8 @@ Podemos trabalhar sem as chaves caso as instruções sejam dadas em até uma lin
 além dos comandos citados, funções como `break()`, que pode ser utilizado para interromper um loop e dar continuidade ao fluxo do programa, ou `next()`, que descontinua uma interação particular, e pula para a próxima, também existem no R. Além do `repeat()`, um loop que executa um bloco de comandos repetidamente, até que o mesmo seja quebrado. 
 
 
-## Criando funções 
-No R podemos criar as nossas próprias funções, por meio do `function()`, pratica que evita retrabalho, e permite um código mais simples e mais facilmente reprodutível. Para criar funções existem três características: o nome do objeto criado para a função ser armazenada, os argumentos que a função pode, ou não, possuir, e o corpo da função, onde é definido o que a função faz, e o que retorna.  
+## Criando funções {#CriandoFuncoes}
+No R podemos criar as nossas próprias funções, por meio do objeto `function()`. Tal prática é interessante pois permite a automação de atividades de uma forma melhor estruturada e mais consistente do que a prática "copia e cola", além de tornar o código mais legível, escalonável e reprodutível. Para criar tais funções existem três aspectos que devemos considerar: o nome do objeto criado para a função ser armazenada (que terá papel fundamental na legibilidade do código), os argumentos que a função pode, ou não, possuir, e o corpo da função, onde é definido o que a função faz, e o que retorna: 
 
 ```{r, eval=F}
 #modelo
@@ -939,11 +986,12 @@ No R podemos criar as nossas próprias funções, por meio do `function()`, prat
   }
 ```
 
-Em relação ao retorno da função, o R, por default, retorna a última linha do corpo da função, porém, alternativamente, podemos utilizar a função `return()`, que garante o retorno independente da posição em relação aos demais item do corpo da função.
+Em relação ao retorno da função, o R, por default, retorna a última linha do corpo da função. Porém, alternativamente, podemos utilizar a função `return()`, que garante o retorno independente da posição em relação aos demais itens do corpo da função.
 
-Outro aspecto importante trata dos ambientes das funções, uma vez que estas possuem seu próprio `environment`, de modo que os objetos e cálculos feitos dentro da função não alteram, e não são registrados nos demais ambientes. Por outro lado o `environment` da função consegue consultar o ambiente em que a função foi definida (`parent environment`), bem como o ambiente pai deste, e assim por diante, de forma hierarquica. Tal recurso é utilizado no contexto em que algum objeto necessário para a execução da função não é encontrado. Como exemplo vamos analisar a função `celcius_fahrenheit` definida abaixo, em que para a temperatura em celsius `temp_c` a respectiva temperatura em fahrenheit `temp_f` é calculada, porém o resultado só retornado quando chamamos a função `celcius_fahrenheit()`, e não para o objeto `temp_f`: 
+Um aspecto importante de ser considerado no contexto das funções são os seus ambientes, uma vez que estas possuem seu próprio `environment`, ou seja, sua própria coleção de objetos (funções, variáveis, etc). De modo que nem os cálculos realizados dentro de uma função não alteram, e não são registrados, pelos demais ambientes. Contudo, o `environment` de uma função consegue consultar o ambiente em que foi definida (`parent environment`), bem como o ambiente pai deste, e assim por diante, de forma hierárquica. Tal recurso é utilizado no contexto em que algum objeto necessário para a execução da função não é encontrado. Como exemplo vamos analisar a função `celcius_fahrenheit` definida abaixo, em que para a temperatura em celsius `temp_c` a respectiva temperatura em fahrenheit `temp_f` é calculada, porém o resultado só retornado quando chamamos a função `celcius_fahrenheit()`, e não para o objeto `temp_f`: 
 
 ```{r, error=T}
+#exemplo
   temp_c <- 25
   
   celcius_fahrenheit <- function(){
@@ -957,11 +1005,11 @@ Outro aspecto importante trata dos ambientes das funções, uma vez que estas po
 ```
 
 Revisitando os pontos anteriormente comentados, temos que : 
-- como a função não encontrou o objeto `temp_c` em seu environment, passou a procura-la no ambiente em que a função foi definida, no caso, o `Global Environment`, onde encontrou o objeto `temp_c` com o valor `25`;
+- como a função não encontrou o objeto `temp_c` em seu `environment`, passou a procura-la no ambiente em que a função foi definida, no caso, o `Global Environment`, onde encontrou o objeto `temp_c` com o valor `25`;
 - apesar da função conseguir acessar o ambiente em que foi criada, ela não tem o poder de gravar objetos fora do seu próprio `environment`. Sendo assim o objeto `temp_f` só "existe" dentro da funçao, e ao ser chamado fora desta não é encontrado; e
 - a função ao ser chamada no `Global Environment` retorna a sua última linha, no caso o resultado do objeto `temp_f` - mas não o objeto em si.
 
-O exemplo acima foi dado visando ilustrar como o R lida com os diferentes ambientes, porém, em termos práticos é extremamente desaconselhável deixar que a função dependa de parâmetros externos ao seu próprio `environment`. De modo que todas as dependências devem ser especificadas e passadas como argumentos da função, assim:
+O exemplo acima foi desenhado visando ilustrar como o R lida com os diferentes ambientes, porém, em termos práticos é extremamente desaconselhável deixar que a função dependa de parâmetros externos ao seu próprio `environment`. Como prática aconselhável, todas as dependências devem ser especificadas e passadas como argumentos da função, assim:
 
 ```{r, error=T}
 celcius_fahrenheit <- function(temp_c){
@@ -977,6 +1025,30 @@ celcius_fahrenheit(temp_c)
 temp_f <- celcius_fahrenheit(temp_c)
 
 ```
+
+Ainda no contexto da relação de funções e seus ambientes, temos os operadores `<<-` e `->>` como ferramentas úteis para trabalhar com a definição de objetos em mais de um nível. De modo que primeiro o valor do objeto será procurado na cadeia de ambientes pais, e se essa variável for encontrada (e sua ligação não estiver bloqueada), seu valor será redefinido, caso contrário, a atribuição ocorrerá no ambiente global. Assim:
+
+```{r, error=T}
+#exemplo
+  x <- 0
+
+  myfun <- function(){
+      x <<- 1
+      y <<- 1
+      z <- 1
+      return (x+y+z)
+  }
+#tendo como saída:
+  myfun()
+#enquanto que os objetos:
+  x #foi redefinida
+  y #possou a constar no ambiente global
+  z #não existe globalmente
+
+
+
+```
+
 
 Em relação aos argumentos, assim como ocorre nas funções *built-in*, podemos especificar valores default para os parâmetros, bem como definir o corpo da função em uma mesma linha sem o uso de chaves, como descrito para o `for()`:
 
@@ -1119,24 +1191,39 @@ Contudo os pacotes do `tidyverse` oferecem recursos que são melhor aproveitados
   
 ```
 
-Assim, além do claro ganho em termos de leitura, passamos a ter uma análise modular, de modo que podemos alterar, remover ou inserir tais módulos de forma simples, sem comprometer o todo. 
+Assim, por exemplo, teremos:
 
-O operador `%>%` foi originalmente introduzido no R por meio da biblioteca `magrittr`, porém ganhou tamanha importância que passou a ser contemplado por diversos pacotes, inclusive, claro, o `tidyverse`. A título de comparação, segue um exemplo contemplando os dois paradigmas descritos, em qual deles seria mais simples retirar o log? 
-
-```{r}
+```{r, include=F}
 library(tidyverse)
 ```
 
-```{r, message = F}
-#assim, aplicar o modulo, o log e arredondar para 2 casas decimais:
-  floor(log(abs(-3:3)))
+```{r}
+#exemplo
+  x <- 1:5
+  
+  #leitura de dentro para fora
+  floor(sqrt(sum(x)))
+  
+  #leitura sequencial
+  x %>% 
+    sum %>% 
+    sqrt %>% 
+    floor
+```
 
-#pode ser reescrito como:
-  -3:3 %>% 
-    abs() %>% 
-    log() %>% 
-    floor()
+O que além do claro ganho em termos de leitura, passamos a ter uma análise modular, de modo que podemos alterar, remover ou inserir tais módulos de forma simples, sem comprometer o todo:
+```{r}
+#ilustrando a facilidade em excluir uma função
+  x %>% 
+    #sum %>% 
+    sqrt %>% 
+    floor
+```
 
+O operador `%>%` foi originalmente introduzido no R por meio da biblioteca `magrittr`, porém ganhou tamanha importância que passou a ser contemplado por diversos pacotes, inclusive, claro, o `tidyverse`.
+
+```{r}
+library(tidyverse)
 ```
 
 > O operador `%>%`  pode ser chamado por meio do atalho `'ctrl + shift + M'` no RStudio.
@@ -1423,53 +1510,85 @@ Conforme já comentado, existem bibliotecas para trabalharmos com diferentes cla
 ```
 
 
-## Visualização 
-Gráficos são ferramentas poderosas para a visualização de gráficos, e, quando devidamente utilizados, permitem ao usuário o entendimento das informações de uma forma rápida, permitindo novas questões, hipóteses, necessidades ou pontos de atenção. Por meio do RBase temos várias opções gráficas que nos permitem gráficos genéricos:
+## Visualização
+A etapa de visualização possui um papel importantíssimo no contexto de análise de dados, uma vez que, quando devidamente utilizados, nos permitem o entendimento dos dados e suas particularidades. E, apesar da visualização também contemplar  um conjunto de medidas organizadas em tabelas, vamos focar este capítulo na opção gráfica, visto já termos apresentado o pacote `dplyr`, e funções de sumarização como o `summarise()` - um pacote particularmente útil para visualizações descritivas é o `skimr`.
 
-```{r, out.width = '60%', fig.align = "center"}
-#base para exemplo
-  mtcars %>% glimpse
+Conforme apresentado no capítulo de [Análises Descritivas](#AnalisesDescritivas), o RBase oferece uma série de opções gráficas. Contudo, é quando começamos a trabalhar com as bibliotecas de visualização do R, que o recurso gráfico é realmente potencializado. Para tal temos o pacote `ggplot2` como uma das opções atualmente mais utilizada e difundida. Nesta trabalhamos com a filosófia chamada *Grammar of Graphics*, em que o mapeamento dos dados é feito a partir de objetos geométricos e atributos estéticos, ambos trabalhados em uma lógica de camadas, similarmente ao encadeamento do `Pipe` - porém utilizando o operador `+` no lugar do `%>%`. Assim temos a estrutura:
 
-#exemplo: gráfico de dispersão 
-  plot(mtcars$mpg, mtcars$disp)
-#exemplo: histograma
-  hist(mtcars$disp)
-#exemplo: gráficos de dispersão para todas as combinações dois a dois das colunas selecionadas
-  plot(mtcars[,1:4])
+```{r, eval=F}
+  ggplot(dados) +
+    função_geometrica(mapeamentos) +
+    funções_estéticas
 ```
 
-E por meio da biblioteca `ggplot2`, passamos a trabalhar com gráficos de uma perspectiva mais flexível, onde o gráfico é trabalhado como um mapeamento de atributos, e assim podemos dividi-lo em camadas. Assim, a partir da especificação das variáveis no comando `ggplot()`, adicionamos camadas por meio do simbolo `+`, o que nos permite especificar o tipo de gráfico, título, rótulos, etc:
+em que na primeira linha inicializamos o objeto gráfico, na segunda especificamos a representação geométrica escolhida (tipo de gráfico, como dispersão, boxplot ou mapa p.e.), quais informações serão utilizadas (eixos x e y p.e.) e possíveis especificações relacionados a representação escolhida e, por fim, funções estéticas permitindo o ajuste de: divisão de gráficos (faceting), rótulos, escalas, legendas, sistemas de coordenadas, temas de fundo, etc.
 
-```{r, out.width = '60%', fig.align = "center"}
-#exemplo: gráfico de dispersão 
+Como um primeiro exemplo, vamos refazer o histograma da variável `qsec`, da base `mtcars`, feita [anteriormente](#AnalisesDescritivas):
+
+```{r, out.width = '100%', fig.align = "center", message=F}
+  ggplot(mtcars) +
+   geom_histogram(aes(qsec))
+
+```
+
+E agora, reestruturando a primeira linha segundo a lógica pipe, diminuindo o intervalo de quebra do histograma (que tem 30 por default), e alguns parâmetros estéticos:
+
+```{r, out.width = '100%', fig.align = "center", message=F, warning=F}
   mtcars %>% 
-    ggplot(aes(x=mpg, y=disp)) +
-    geom_point()
-
-#exemplo: histograma
-  mtcars %>%
-    ggplot(aes(x=disp)) +
-    geom_histogram()
+   ggplot() +
+     geom_histogram(aes(qsec), bins = 20) + 
+     labs(title = "exemplo gráfico") +
+     scale_x_continuous(limits = c(15,20)) +
+     theme_minimal() 
 ```
 
-Assim temos opções de gráficos como: `geom_boxplot`, `geom_area`, ou `geom_col`, além de uma série de opções para estilização, como: sistema de coordenadas, escalas, cores, posição, cores, legendas, quebras, etc.
+Visando ilustrar outras funcionalidades do `ggplot2` segue um exemplo em que a visualização é dada em termos da variável `mpg` por `disp`, segmentando por `vs` e modelando segundo para um dos níveis de `cyl` - note que ambas as variáveis de segmentaçao são originalmente numéricas e, portanto, precisam ser redefinidas como fatores, visando permitir a leitura:
 
-```{r, out.width = '60%', fig.align = "center"}
+```{r}
 #exemplo: gráfico ggplot
   mtcars %>% 
     ggplot(aes(x = mpg, y = disp, color = as.factor(cyl))) + 
     geom_point() + 
     facet_grid(~as.factor(vs)) +
-    stat_smooth(method = 'lm') + 
-    labs(title = "variável 'mpg' x 'disp', com quebra por 'vs' e ajuste por 'cyl'")
+    stat_smooth(method = 'lm')
 ```
 
-Para visulização dos gráficos de dispersão dois a dois, uma opções é trabalhar com a biblioteca `GGally`, uma das extenções do ``ggplot2`, que permite uma visão mais limpa e completa, uma vez que também retorna a correlação entre os pares e a distribuição indivídual das variáveis:
 
-```{r, out.width = '60%', fig.align = "center"}
- mtcars[,1:4] %>%
-  GGally::ggpairs()
+Adicionalmente, segue um exemplo considerando a base `diamonds`, onde o interesse é entender a distribuição da variável `cut` em relação à `clarity`, ou ambas quanto a `count`:  
 
+```{r}
+#visualização dos dados
+  diamonds %>% glimpse
+```
+
+```{r}
+# visualização 1
+  diamonds %>% 
+    ggplot(aes(x = cut, fill = clarity)) + 
+    geom_bar()
+# visualização 2
+  diamonds %>% 
+    ggplot(aes(x = cut,  y = price)) + 
+    geom_bar(aes(fill = clarity), 
+             stat = "identity", 
+             position = "fill")
+  
+```
+
+Por fim segue um exemplo de dados temporais em que, em conjunto com as funções do `tidyr` e `dplyr`, remodelamos a base de dados `economics` visando obter a visualização das variáveis `psavert` e `uempmed` desde `1990`:
+
+```{r}
+economics
+```
+
+```{r}
+economics %>%
+  select(date, psavert, uempmed) %>%
+  filter(date>1990) %>% 
+  gather(key = "variable", value = "value", -date) %>% 
+  ggplot(aes(x = date, y = value)) + 
+  geom_line(aes(color = variable), size = 1) +
+  scale_color_manual(values = c("#00AFBB", "#E7B800")) 
 ```
 
 
@@ -1541,6 +1660,15 @@ Por fim temos a apresentação dos resultados, uma parte crítica do processo, v
 
 Para criar tais arquivos basta ir em 'File > New File > R Markdown ...', preencher as especificações do Documento, e então apertar o botão Knit, ou o atalho 'Ctrl + Shift + K'.
 
+Além do RMarkdown, temos também ferramentas como o Shiny - pacote usado para geração de gráficos e dashboards interativos. que permitem a construção de aplicações Web. Para tal, as ferramentas da biblioteca convertem os dados analisados e as funções de R para HTML, CSS e JavaScript, gerando arquivos que podem ser abertos e trabalhados em um navegador. 
+
+O Shiny é baseado em dois componentes principais: ‘server’, que é responsável pela lógica do programa, tratamento e exibição dos dados, e ‘ui’ (user interface) que é responsável por oferecer as interações necessárias com o usuário através do navegador. Ambos possuem métodos e funções prontas para uso para as funcionalidades mais populares. 
+
+```{r , echo=FALSE, out.width = '30%', fig.align = "center", fig.cap="RMarkdown + Shiny"}
+ knitr::include_graphics("Figs/Fig_2_Shiny_Rmarkdown.png")
+```
+
+
 
 <!--------------------------------------------------> ____
 # R para Big Data
@@ -1567,8 +1695,8 @@ Visando ilustrar a facilidade de tais integrações, segue a aplicação do mesm
 # spark_conexao <- spark_connect(master = "local")
 # 
 #  #transformando os dados de memŕia numa tbl_spark
-#   mtcars_tbl <- sdf_copy_to(spark_conexao, 
-#                             mtcars, name = "mtcars_tbl", 
+#   mtcars_tbl <- sdf_copy_to(spark_conexao,
+#                             mtcars, name = "mtcars_tbl",
 #                             memory = FALSE)
 #   class(mtcars_tbl)
 # 
@@ -1576,7 +1704,7 @@ Visando ilustrar a facilidade de tais integrações, segue a aplicação do mesm
 #   mtcars_tbl %>% glimpse()
 # 
 #  #selecionando alguma variaveis usando o dplyr
-#   mtcars_reduzido <- mtcars_tbl %>% 
+#   mtcars_reduzido <- mtcars_tbl %>%
 #     select(mpg, hp)
 # 
 #  #salvando o mtcars_reduzido em memória
@@ -1618,7 +1746,79 @@ Vamos agora fazer um ciclo de análises considerando arquivos do Santander.
 
 Boa sorte! 
 
+<!-- # Atividade Final -->
+<!-- Executar as tarefas a seguir usando o R no ambiente de treinamento. O objetivo é extrair informações relevantes das bases, de forma similar ao que seria feito no dia a dia de trabalho com a linguagem no ambiente de produção do banco, conectado ao Data Lake. -->
+<!-- Os passos compreendem importação, tratamento, análise e visualização dos dados. -->
 
+<!-- - Coletar dados da pedt001, pedt008, bgdtpen. -->
+<!-- - Jogar as tabelas para o R usando o bdgetquery(). -->
+<!-- - Filtrar a bgdtpen apenas para conta corrente. -->
+<!-- - Cruzar todas as informações numa tabela única usando dplyr::left_join(). -->
+<!-- - Analisar a estrutura da base final, e calcular estatísticas básicas da tabela. -->
+<!-- - Converter os códigos de segmento para E1,E2,E3, outros. -->
+<!-- - Qual segmento que mais transaciona em quantidade? -->
+<!-- - Qual segmento que mais transaciona em valor? -->
+<!-- - Construa gráficos de barras por segmento, mostrando o número empresas que fazem DOCs, o número que fazem TEDs, e o número que fazem os dois. Qual é o segmento com mais volume em cada um dos casos? -->
+<!-- - Construa um gráfico de barro por segmento, mostrando o valor médio do saldo. -->
+<!-- - Construir um gráfico de pizza contendo as 5 empresas que mais transacionaram em quantidade no período. Quais foram essas empresas? -->
+<!-- - Fazer um gráfico de dispersão de idade da empresa X número de transações feitas desde a abertura dela. Existe alguma tendência? -->
+
+# Apêndice - Tratamento de exceções
+Chamamos de exceção qualquer condição anormal que possa aparecer quando estamos executando um programa de computador. Normalmente, esses erros acontecem por fatores externos do ponto de vista do código, como valores ou tipos não suportados passados para uma função, necessidade de leitura ou gravação de arquivos no sistema operacional, necessidade de conexão com a internet para obter algum dado.
+
+As linguagens costumam ter formas de tratar as exceções, ou seja, métodos e funções que possam ser usados para que o programa não quebre a execução, não apresente erros abruptos ou até mesmo continue a partir do ponto em que o erro ocorreu.
+O tratamento de exceções em R é feito utilizando a função tryCatch. A sintaxe da função é:
+
+```{r}
+result = tryCatch(
+  {
+    #Código a ser executado
+  }, 
+  warning = function(condição) {
+      #Código a ser executado caso ocorra algum aviso (warning)
+  }, 
+  error = function(condição) {
+      #Código a ser executado caso ocorra algum erro
+  }, 
+  finally={
+     # Código a sempre ser executado após um dos três blocos acima.
+  }
+)
+
+```
+
+
+Por exemplo, vamos escrever um código que retorna para uma variável as linhas de um arquivo lido de uma url:
+
+```{r}
+arquivo <- function(url) {
+    linhas <- tryCatch(
+        {
+            message("Tentando ler o arquivo")
+            readLines(con=url)
+         },
+        error=function(condicao) {
+            message(paste("O caminho não pode ser acessado: ", url))
+            message("Mensagem de erro original: ")
+            message(condicao)
+            return(NA)
+        },
+        warning=function(condicao) {
+            message("Warnings foram gerados ao ler a url:") 
+            message(condicao)
+            return(NULL)
+        },
+        finally={
+           message("Fim da execução")
+        }
+    )    
+    return(linhas)
+}
+```
+
+Caso o arquivo consiga ser lido, a última linha do primeiro bloco ( o resultado de readLines ) será retornado. Se ocorrer um erro, as mensagens de erro são exibidas e é retornado o valor NA. Se ocorrer algum warning, as mensagens correspondentes são enviadas e a função retorna NULL. Independente do valor de retorno, a mensagem de fim da execução será exibida ao final.
+É importante utilizar blocos de tratamento de exceção toda vez que não houver certeza sobre as condições necessárias para execução do código.
+Uma boa escolha de alternativas em caso de erros ou problemas faz com que o programa seja executado com maior confiabilidade, além de melhorar a legibilidade e diminuir o tempo gasto para correção desses erros e problemas.
 
 
 <!-- Falar sobre escopo/environment  -->
