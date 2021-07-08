@@ -1,0 +1,19 @@
+library(sparklyr)
+library(dplyr)
+
+# criando uma conexão
+sc <- spark_connect(master = "local")
+
+# transformando os dados de memŕia numa tbl_spark
+mtcars_tbl <- sdf_copy_to(sc, mtcars, name = "mtcars_tbl", memory = FALSE)
+class(mtcars_tbl)
+
+# verificando a estrutura dos dados
+glimpse(mtcars_tbl)
+
+# selecionando alguma variaveis usando o dplyr
+mtcars_reduzido <- mtcars_tbl %>% 
+  select(mpg, hp)
+
+# salvando o mtcars_reduzido em memória
+mtcars_reduzido_ram <- collect(mtcars_reduzido)
